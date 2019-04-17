@@ -60,7 +60,7 @@ public class StoreService {
 
     @GraphQLQuery(name = "isNew")
     public boolean isNew(@GraphQLContext Store store) {
-        return store.getCode().equals("vaos-4806");
+        return store.getCode().equals("vaos-1806");
     }
 
 

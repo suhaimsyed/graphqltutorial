@@ -10,7 +10,7 @@ to save or create a new store enter the below mutation script on the left hand s
 
 ```
 				mutation {
-				    saveStore(store: {name:"Berlin Home Delivery",code:"vaos-4099",bkz:"4099" , storeType:"HOMEDELIVERY"}) {
+				    saveStore(store: {name:"Berlin Home Delivery",code:"vaos-4099",bkz:"4099" , storeType:HOMEDELIVERY}) {
 				      name
 				    }
 				}
@@ -70,7 +70,7 @@ To make more changes by yourself
 ```
 			   @GraphQLQuery(name = "isOld")
 			    public boolean isOld(@GraphQLContext Store store) {
-			        return store.getCode().equals("aos-4806");
+			        return store.getCode().equals("aos-1806");
 			    }
 ```
 	The below query can be used to view the result.
@@ -103,8 +103,8 @@ To make more changes by yourself
    	2.3	In StoreService.java add the below below method to get all regions
 ```	    
 		    	@GraphQLQuery(name = "storeByRegion")
-			    public List<Store> getStoreByRegion(@GraphQLArgument(name = "name") String region) {
-			        return storeRepository.findAll().stream().filter(store -> store.getRegion().equals(name)).collect(Collectors.toList());
+			    public List<Store> getStoreByRegion(@GraphQLArgument(name = "region") String region) {
+			        return storeRepository.findAll().stream().filter(store -> store.getRegion().equals(region)).collect(Collectors.toList());
 			    }
 ```
 
@@ -130,14 +130,18 @@ To make more changes by yourself
 ```
     	3.2 Create a new Class Address.java as an entity same as how Store.java or PostalCode.java was created , and add 	 the below methods
 ```
-    		    @GraphQLQuery(name = "street", description = "Street")
-    			private @NonNull String street;
-
-   				@ManyToOne(fetch = FetchType.LAZY)
-			    @JoinColumn(name = "storeId", nullable = false)
-			    @GraphQLQuery(name = "store", description = "Street Address")
-			    @JsonBackReference
-			    private  Store store;
+        @Id @GeneratedValue
+        @GraphQLQuery(name = "id", description = "A store's id")
+        private Long id;
+        
+        @GraphQLQuery(name = "street", description = "Street")
+        private @NonNull String street;
+        
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "storeId", nullable = false)
+        @GraphQLQuery(name = "store", description = "Street Address")
+        @JsonBackReference
+        private  Store store;
 ```
 		3.3 Create a new Class for the new entity which acts as the JPA repository
 ```
@@ -165,7 +169,7 @@ To make more changes by yourself
 ```		
  		       Address address1 = new Address();
  		       address1.setStreet("test");
- 		       address1.setStore("store1");
+ 		       address1.setStore(store1);
  		       storeService.saveAddress(address1);
 ```
 
@@ -176,9 +180,16 @@ To make more changes by yourself
 				    id
 				    name
 				    bkz
-				    postalCodes {
-				      postalCode
+				    addresses {
+				      street
 				    }
 				  }
 				}
+```
+```
+mutation {
+                    saveAddress(address: {street:“irjirjr”,store: { id:1 }}) {
+                      street
+                    }
+                }
 ```

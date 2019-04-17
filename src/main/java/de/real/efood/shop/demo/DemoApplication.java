@@ -21,26 +21,26 @@ public class DemoApplication {
 		store1.setCode("vaos-1806");
 		store1.setName("Home Delivery Düsseldorf");
 		store1.setStoreType(StoreType.HOMEDELIVERY);
-		store1.setBkz("4806");
+		store1.setBkz("1806");
 
 
 		Store store2 = new Store();
 		store2.setCode("aos-1806");
 		store2.setName("C&C Düsseldorf");
 		store2.setStoreType(StoreType.CLICKANDCOLLECT);
-		store2.setBkz("4806");
+		store2.setBkz("1806");
 
 		Store store3 = new Store();
 		store3.setCode("pos-001-aos-1806");
 		store3.setName("C&C Düsseldorf PS");
 		store3.setStoreType(StoreType.PICKUPSTATIONS);
-		store3.setBkz("4806");
+		store3.setBkz("1806");
 
 		Store store4 = new Store();
 		store4.setCode("pos-aos-1806");
 		store4.setName("Point Of Serice Düsseldorf");
 		store4.setStoreType(StoreType.POINTOFSERVICE);
-		store4.setBkz("4806");
+		store4.setBkz("1806");
 
 		storeService.saveStore(store1);
 		storeService.saveStore(store2);
