@@ -5,7 +5,7 @@ Navigate to the project folder and perform the below actions
 3. mvn spring-boot:run
 
 
-Access localhost:8080 , you can now see the graphql UI
+Access `http://localhost:8080/graphiql` , you can now see the graphql UI
 to save or create a new store enter the below mutation script on the left hand side of the UI and then click on the play icon
 ```
 				mutation {
