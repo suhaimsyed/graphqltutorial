@@ -181,3 +181,67 @@ mutation {
                     }
                 }
 ```
+
+
+
+**Spring with Docker**
+
+1.  The below changes are added to build docker image of the spring boot application in pom.xml
+  
+  ```
+    <properties>
+          <java.version>1.8</java.version>
+          <!-- Build a Docker Image with Maven-->
+          <docker.image.prefix><name of your docker id></docker.image.prefix>
+      </properties>
+   ```
+   
+    ```
+        <!-- Build a Docker Image with Maven-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.9</version>
+                <configuration>
+                    <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                </configuration>
+            </plugin>
+            <!-- To ensure the jar is unpacked before the docker image is created we add some configuration for the dependency plugin:-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+     ``` 
+     
+ 
+2.  Docker file was created -> DockerFile
+
+3.  Run the below commands to build a docker image
+   ``` 
+        ./mvnw package && java -jar target/graphqlshopdemo-0.0.1-SNAPSHOT
+        ./mvnw install dockerfile:build
+   ``` 
+        
+4. Ensure you have logged into docker
+   ``` 
+        docker login
+        docker push <repo name>/<image name>
+   ```      

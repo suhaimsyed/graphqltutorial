@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  demospring-docker-compose-app-container:
+    image: graphqldemo:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /data/graphqldemo
+    ports:
+      - "8081:8080"
